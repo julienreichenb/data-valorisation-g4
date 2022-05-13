@@ -1,0 +1,16 @@
+// Bootstrap colors
+$theme-colors: (
+    'light': #fee5b1,
+    'primary': #ffcc00,
+    'secondary': #203e5f,
+    'dark': #1a2634,
+);
+
+$font: "Rockwell";
+
+// Navbar
+$z-navbar: 1100;
+$navbar-height: 70px;
+
+// Transitions
+$default-transition: ease-in-out .4s;

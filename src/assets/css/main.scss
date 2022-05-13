@@ -1,0 +1,24 @@
+@import './_variables.scss';
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap-vue/src/index.scss';
+
+@font-face {
+    font-family: "Museo 700";
+    src: url("~@/assets/font/Rockwell.woff2") format('woff2');
+}
+
+body {
+    background-color: theme-color-level('dark', -2) !important;
+    color: theme-color('light') !important;
+    font-family: $font;
+}
+
+.content {
+    margin-top: 3em;
+    min-height: 100vh;
+}
+
+.small-caps {
+    font-variant: small-caps;
+}

@@ -1,0 +1,10 @@
+module.exports = {
+  css: {
+    loaderOptions: {
+      sass: {
+        additionalData: '@import "@/assets/css/main.scss";',
+        implementation: require('node-sass')
+      },
+    },
+  },
+}
