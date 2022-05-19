@@ -17,7 +17,7 @@ const routes = [
             {
                 path: '/',
                 name: 'Dashboard',
-                component: load('Home'),
+                component: load('SwisscomMap'),
             },
             {
                 path: 'about',

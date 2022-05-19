@@ -19,6 +19,9 @@ const modules = requireContext
 export default new Vuex.Store({
   modules,
   plugins: [createPersistedState({
-    paths: ['auth.user']
+    paths: [
+      'base.npaList',
+      'base.districtsList',
+    ]
   })],
 })

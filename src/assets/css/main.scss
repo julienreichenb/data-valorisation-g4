@@ -9,7 +9,10 @@
 }
 
 body {
-    background-color: theme-color-level('dark', -2) !important;
+    background: theme-color-level('secondary', 8);
+    background-image: url('~@/assets/img/background.png');
+    background-image: url('~@/assets/img/background.png'),
+        theme-color-level('secondary', 8) !important;
     color: theme-color('light') !important;
     font-family: $font;
 }
@@ -21,4 +24,8 @@ body {
 
 .small-caps {
     font-variant: small-caps;
+}
+
+.flex-grow {
+    flex-grow: 1;
 }
