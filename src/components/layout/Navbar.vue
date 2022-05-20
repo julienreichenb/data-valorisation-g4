@@ -47,6 +47,7 @@ export default {
 <style lang="scss">
 #navbar {
     background-color: theme-color('dark');
+    box-shadow: 0 1px 3px 0 theme-color('light');
 
     a {
         color: theme-color('light');

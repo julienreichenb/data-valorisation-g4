@@ -1,7 +1,9 @@
+import Vue from 'vue'
+import VueAxios from 'vue-axios'
 import axios from 'axios'
 
-const instance = axios.create({
+const api = axios.create({
     baseURL: process.env.VUE_APP_API_BASE_URL,
 })
 
-export default instance
+Vue.use(VueAxios, api)

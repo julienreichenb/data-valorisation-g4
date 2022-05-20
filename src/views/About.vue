@@ -1,5 +1,5 @@
 <template>
-  <b-container id="about">
+  <b-container id="about" class="content-bg">
     <div class="title d-flex justify-content-between align-items-center">
       <h1 v-text="'Cadre du projet'" />
       <font-awesome-icon class="text-primary" icon="project-diagram" size="lg" />
@@ -61,7 +61,7 @@
       <h1 v-text="'Ressources'" />
       <font-awesome-icon class="text-primary" :icon="['fab', 'github']" size="lg" />
     </div>
-    <p v-html="`Lien vers GitHub <a class='font-weight-bold' href='https://github.com/julienreichenb/data-valorisation-g4' target='_blank'>ici</a>.`" />
+    <p v-html="`Lien vers le GitHub Repository <a class='font-weight-bold' href='https://github.com/julienreichenb/data-valorisation-g4' target='_blank'>ici</a>.`" />
   </b-container>
 </template>
 
@@ -77,7 +77,11 @@ export default {
 
   .title {
     border-bottom: 1px solid theme-color('primary');
-    margin: 2em 0;
+    margin-bottom: 2em;
+
+    &:not(:first-child) {
+      margin-top: 2em;
+    }
   }
 }
 </style>

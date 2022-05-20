@@ -22,6 +22,7 @@ export default new Vuex.Store({
     paths: [
       'base.npaList',
       'base.districtsList',
+      'auth.accessToken',
     ]
   })],
 })

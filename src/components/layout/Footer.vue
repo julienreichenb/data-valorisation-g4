@@ -19,6 +19,7 @@ export default {
 <style lang="scss">
 #footer {
     background-color: theme-color-level('dark');
+    box-shadow: 0 -1px 3px 0 theme-color('light');
     height: 80px !important;
 }
 </style>

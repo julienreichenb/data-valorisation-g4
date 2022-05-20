@@ -1,5 +1,5 @@
 <template>
-    <b-form id="inputs" @submit="updateMap">
+    <b-form id="inputs" class="content-bg" @submit="updateMap">
         <b-row>
             <b-col>
                 <h6 v-text="'Lieu'" />
@@ -13,22 +13,22 @@
                         :options="locationTypes"
                     />
                 </b-input-group>
-                <b-input-group>
+                <b-input-group :state="validateState('location')">
                     <template #prepend>
                         <div class="custom-input-icon">
                             <font-awesome-icon class="text-primary" icon="calendar-minus" />
                         </div>
                     </template>
-                    <vue-bootstrap-typeahead v-if="form.locationType === 0"
+                    <vue-bootstrap-typeahead v-if="form.locationType === 'municipalities'"
                         class="flex-grow"
                         inputClass="custom-input"
                         backgroundVariant="secondaryLighter"
                         textVariant="dark"
                         v-model="locationSearch"
-                        :placeholder="'Rechercher un nom ou un code postal...'"
+                        :placeholder="'Municipalité ou code postal...'"
                         :data="npaList"          
-                        :serializer="s => s.name"      
-                        @hit="form.location = $event"        
+                        :serializer="s => `${s.npa} ${s.name}`"      
+                        @hit="form.location = $event"    
                     >
                         <template slot="suggestion" slot-scope="{ data }">
                             <div class="d-flex align-items-center">   
@@ -40,16 +40,16 @@
                             </div>
                         </template>
                     </vue-bootstrap-typeahead>
-                    <vue-bootstrap-typeahead v-if="form.locationType === 1"
+                    <vue-bootstrap-typeahead v-if="form.locationType === 'districts'"
                         class="flex-grow"
                         inputClass="custom-input"
                         backgroundVariant="secondaryLighter"
                         textVariant="dark"
                         v-model="locationSearch"
-                        :placeholder="'Rechercher un nom ou un code postal...'"
+                        :placeholder="'District...'"
                         :data="districtsList"          
-                        :serializer="s => s.name"      
-                        @hit="form.location = $event"        
+                        :serializer="s => `${s.npa} ${s.name}`"      
+                        @hit="form.location = $event"   
                     >
                         <template slot="suggestion" slot-scope="{ data }">
                             <div class="d-flex align-items-center">   
@@ -64,13 +64,18 @@
             </b-col>
             <b-col>
                 <h6 v-text="'Date de début'" />
-                <b-input-group>
+                <b-input-group :state="validateState('startDate')">
                     <template #prepend>
                         <div class="custom-input-icon">
                             <font-awesome-icon class="text-primary" icon="calendar-minus" />
                         </div>
                     </template>
-                    <b-datepicker class="custom-input" dark v-model="form.startDate" :min="minDate" :max="form.endDate || maxDate" placeholder="Date de début" />
+                    <b-datepicker class="custom-input" 
+                        v-model="form.startDate" 
+                        :min="minDate" 
+                        :max="form.endDate || maxDate"
+                        placeholder="Date de début"
+                    />
                 </b-input-group>
                 <b-input-group>
                     <template #prepend>
@@ -78,9 +83,11 @@
                             <font-awesome-icon class="text-primary" icon="clock" />
                         </div>
                     </template>
-                    <b-select class="custom-input" v-model="form.startTime"
+                    <b-select class="custom-input" 
+                        v-model="form.startTime"
                         required
                         :options="startHours"
+                        :state="validateState('startTime')"
                     >
                         <template #first>
                             <b-form-select-option :value="null" disabled selected v-text="'Heure de début'" />
@@ -90,13 +97,18 @@
             </b-col>    
             <b-col>
                 <h6 v-text="'Date de fin'" />
-                <b-input-group>
+                <b-input-group :state="validateState('endDate')">
                     <template #prepend>
                         <div class="custom-input-icon">
                             <font-awesome-icon class="text-primary" icon="calendar-minus" />
                         </div>
                     </template>
-                    <b-datepicker class="custom-input" v-model="form.endDate" :min="form.startDate || minDate" :max="maxDate" placeholder="Date de fin" />
+                    <b-datepicker class="custom-input"                     
+                        v-model="form.endDate" 
+                        :min="form.startDate || minDate" 
+                        :max="maxDate" 
+                        placeholder="Date de fin"
+                    />
                 </b-input-group>
                 <b-input-group>
                     <template #prepend>
@@ -104,12 +116,18 @@
                             <font-awesome-icon class="text-primary" icon="clock" />
                         </div>
                     </template>
-                    <b-select class="custom-input" v-model="form.endTime"
+                    <b-select class="custom-input" 
+                        v-model="form.endTime"
                         required
                         :options="endHours"
+                        :state="validateState('endTime')"
                     >
                         <template #first>
-                            <b-form-select-option :value="null" disabled selected v-text="'Heure de fin'" />
+                            <b-form-select-option :value="null" 
+                                disabled 
+                                selected 
+                                v-text="'Heure de fin'"
+                            />
                         </template>
                     </b-select>
                 </b-input-group>
@@ -121,23 +139,32 @@
                 <span v-text="'Rafraîchir la carte'" />
             </b-button>
         </div>
+        <b-alert class="mt-2 mb-0 d-flex align-items-center" variant="danger" :show="$v.form.$anyError">
+            <font-awesome-icon class="mr-3" size="lg" icon="exclamation-triangle" />
+            <span v-text="'Veuillez compléter tous les champs.'" />
+        </b-alert>
     </b-form>
 </template>
 
 <script>
+import { validationMixin } from "vuelidate"  
+import { required } from 'vuelidate/lib/validators'
 import moment from 'moment'
 import BaseDataMixin from '@/mixins/baseData'
 import CantonFlag from '@/components/swisscomMap/CantonFlag'
 export default {
     name: 'Inputs',
-    mixins: [BaseDataMixin],
+    mixins: [
+        BaseDataMixin,
+        validationMixin,
+    ],
     components: {
         CantonFlag,
     },
     data() {
         return {
             form: {
-                locationType: 0,
+                locationType: 'municipalities',
                 location: null,
                 startDate: null,
                 startTime: null,
@@ -180,20 +207,26 @@ export default {
         'form.endDate'(oldV, newV) {            
             if(oldV != newV) this.form.endTime = null
         },
+        'form.locationType'(oldV, newV) {
+            if(oldV != newV) {
+                this.form.location = null
+                this.locationSearch = null
+            }
+        },
     },
     computed: {
         locationTypes() {
             return [
                 {
-                    value: 0,
+                    value: 'municipalities',
                     text: 'Municipalité',
                 },
                 {
-                    value: 1,
+                    value: 'districts',
                     text: 'District',
                 },
                 {
-                    value: 2,
+                    value: 'geojson',
                     text: 'Personnalisé (GeoJson)',
                 },
             ]
@@ -226,8 +259,35 @@ export default {
     methods: {
         updateMap(e) {
             e.preventDefault()            
+            this.$v.form.$touch()
+            if (this.$v.form.$anyError) return
             this.$emit('update', this.form)
         },
+        validateState(name) {
+            const { $dirty, $error } = this.$v.form[name]
+            return $dirty ? !$error : null
+        },
+    },
+    validations() {
+        return {
+            form: {
+                location: {
+                    required,
+                },
+                startDate: {
+                    required,
+                },
+                startTime: {
+                    required,
+                },
+                endDate: {
+                    required,
+                },
+                endTime: {
+                    required,
+                },
+            },
+        }
     },
 }
 </script>
@@ -265,7 +325,7 @@ export default {
             display: none;
         }
 
-        button {
+        & > button {
             opacity: 0;
         }
 

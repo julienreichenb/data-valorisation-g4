@@ -1,19 +1,30 @@
 <template>
     <div id="swisscom-data-aggregation-component">
-        <Inputs @update="loadMap" />
+        <Inputs @update="loadDashboard" />
+        <div v-if="params">
+        
+        </div>
     </div>
 </template>
 
 <script>
 import Inputs from '@/components/swisscomMap/Inputs'
+import SwisscomMixin from '@/mixins/swisscom'
 export default {
     name: 'SwisscomMap',
+    mixins: [SwisscomMixin],
     components: {
         Inputs,
     },
+    data() {
+        return {
+            params: null,
+        }
+    },
     methods: {
-        loadMap(params) {
-            console.log(params)
+        loadDashboard(newParams) {
+            this.params = newParams
+            console.log(this.params)
         },
     },
 }

@@ -22,6 +22,12 @@ body {
     min-height: 100vh;
 }
 
+.content-bg {
+    background: theme-color('secondary');
+    padding: 1em;
+    border-radius: 5px;
+}
+
 .small-caps {
     font-variant: small-caps;
 }
