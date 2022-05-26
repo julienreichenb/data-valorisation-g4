@@ -1,9 +1,20 @@
-import AuthMixin from '@/mixins/auth'
 export default {
-    mixins: [AuthMixin],
+    data() {
+        return {
+            HEATMAPS_URI: 'heatmaps/standard',
+            OD_URI: 'origin-destination/standard',
+        }
+    },
     methods: {
         loadTiles() {
-           //axios.get(`heatmaps/${params.locationType}`) 
+            console.log(this.params.location)
+            this.axios.get(`${this.HEATMAPS_URI}/grids/${this.params.locationType}/${this.params.location.numDistrict}`)
+                .then((res) => {
+                    console.log(res)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         },
     },
 }

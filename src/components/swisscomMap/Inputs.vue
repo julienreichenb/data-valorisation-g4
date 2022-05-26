@@ -16,7 +16,7 @@
                 <b-input-group :state="validateState('location')">
                     <template #prepend>
                         <div class="custom-input-icon">
-                            <font-awesome-icon class="text-primary" icon="calendar-minus" />
+                            <font-awesome-icon class="text-primary" icon="search-location" />
                         </div>
                     </template>
                     <vue-bootstrap-typeahead v-if="form.locationType === 'municipalities'"
@@ -48,7 +48,7 @@
                         v-model="locationSearch"
                         :placeholder="'District...'"
                         :data="districtsList"          
-                        :serializer="s => `${s.npa} ${s.name}`"      
+                        :serializer="s => `${s.name}`"      
                         @hit="form.location = $event"   
                     >
                         <template slot="suggestion" slot-scope="{ data }">

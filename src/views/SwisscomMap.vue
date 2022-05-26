@@ -24,7 +24,7 @@ export default {
     methods: {
         loadDashboard(newParams) {
             this.params = newParams
-            console.log(this.params)
+            this.loadTiles()
         },
     },
 }
