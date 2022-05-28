@@ -2,15 +2,7 @@
     <div>
         <Navbar />
         <div>
-            <b-container class="content">
-                <b-alert variant="warning" dismissible :show="isDevMode">
-                    <p v-text="`Attention ! En développement, vous devez lancer votre navigateur en mode 'no-cors' pour accéder aux données.`" />
-                    <div class="bg-dark p-3 rounded">
-                        <code >
-                            "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
-                        </code>
-                    </div>
-                </b-alert>
+            <b-container class="content">               
                 <router-view />
             </b-container>
             <Footer />
@@ -26,11 +18,6 @@ export default {
     components: {
         Navbar,
         Footer,
-    },
-    computed: {
-        isDevMode() {
-            return window.location.hostname.includes('localhost')
-        },
     },
 }
 </script>

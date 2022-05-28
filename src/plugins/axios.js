@@ -13,13 +13,22 @@ const api = axios.create({
  *  Interceptor to manage OAuth token & SCS-Versioning
  *  
  **/
-api.interceptors.request.use(async (cfg) => {
-    console.log(cfg)
+api.interceptors.request.use(async (req) => {
     if(!store.getters['auth/accessToken'])
         await getAccessToken()
-    cfg.headers['Authorization'] = `Bearer ${store.getters['auth/accessToken']}`
-    cfg.headers['SCS-Version'] = cfg.url.includes('heatmaps') ? 2 : 1
-    return cfg
+    req.headers['Authorization'] = `Bearer ${store.getters['auth/accessToken'] || ''}`
+    req.headers['SCS-Version'] = req.url.includes('heatmaps') ? 2 : 1
+    return req
+})
+
+api.interceptors.response.use((res) => { return res }, async (error) => {
+    if(error.response.status == 403 && store.getters['auth/attempts'] < 2) {
+        store.dispatch('auth/increaseAttempts')
+        await getAccessToken()
+        // Retry with new token
+        return api.request(error.config)
+    }
+    return error
 })
 
 const getAccessToken = async () => {

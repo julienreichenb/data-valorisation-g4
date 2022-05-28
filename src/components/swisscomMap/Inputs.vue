@@ -40,7 +40,7 @@
                             </div>
                         </template>
                     </vue-bootstrap-typeahead>
-                    <vue-bootstrap-typeahead v-if="form.locationType === 'districts'"
+                    <vue-bootstrap-typeahead v-else-if="form.locationType === 'districts'"
                         class="flex-grow"
                         inputClass="custom-input"
                         backgroundVariant="secondaryLighter"
@@ -60,6 +60,13 @@
                             </div>
                         </template>
                     </vue-bootstrap-typeahead>
+                    <b-form-file v-else class="custom-file"
+                        :class="form.location && 'file-filled'"
+                        v-model="form.location" 
+                        placeholder="Fichier GeoJSON..."
+                        accept=".geojson"
+                        browseText="..."
+                    />
                 </b-input-group>
             </b-col>
             <b-col>
@@ -133,11 +140,21 @@
                 </b-input-group>
             </b-col>                 
         </b-row>
-        <div>
-            <b-button class="text-primary" type="submit" variant="dark">
-                <font-awesome-icon class="mr-2" icon="sync-alt" />
-                <span v-text="'Rafraîchir la carte'" />
-            </b-button>
+        <div class="d-flex justify-content-between align-items-end">
+            <div>
+                <b-button class="text-primary" type="submit" variant="dark" size="sm">
+                    <font-awesome-icon class="mr-2" icon="sync-alt" :spin="loading" />
+                    <span v-text="'Rafraîchir la carte'" />
+                </b-button>
+                <b-button class="ml-2 text-dark" variant="light" size="sm" @click="reset">
+                    <font-awesome-icon class="mr-2" icon="trash-alt" />
+                    <span v-text="'Réinitialiser'" />
+                </b-button>
+            </div>
+            <div class="font-italic">
+                <font-awesome-icon class="mr-1 text-warning" icon="exclamation-circle" size="sm" />
+                <small v-html="`Si plus de 24 heures séparent le début et la fin, les résultats seront toujours <u>journaliers</u>.`" />
+            </div>
         </div>
         <b-alert class="mt-2 mb-0 d-flex align-items-center" variant="danger" :show="$v.form.$anyError">
             <font-awesome-icon class="mr-3" size="lg" icon="exclamation-triangle" />
@@ -160,6 +177,9 @@ export default {
     ],
     components: {
         CantonFlag,
+    },
+    props: {
+        loading: { type: Boolean, default: false },
     },
     data() {
         return {
@@ -267,6 +287,17 @@ export default {
             const { $dirty, $error } = this.$v.form[name]
             return $dirty ? !$error : null
         },
+        reset() {
+            this.locationSearch = ''
+            this.form = {
+                locationType: 'municipalities',
+                location: null,
+                startDate: null,
+                startTime: null,
+                endDate: null,
+                endTime: null,                
+            }
+        },
     },
     validations() {
         return {
@@ -337,6 +368,25 @@ export default {
 
     .input-group[role="group"] {
         margin-bottom: 10px;
+    }
+
+    .custom-file {
+        & label {
+            border: none;
+            background-color: theme-color-level('secondary', -2);  
+            color: theme-color-level('light', 4);
+            cursor: pointer;
+        }
+
+        &.file-filled label {
+            color: theme-color('light') !important;
+        }
+
+        & label::after {
+            background-color: theme-color('dark');
+            color: theme-color('primary');
+            height: 100%;
+        }
     }
 }
 

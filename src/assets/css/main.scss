@@ -4,8 +4,8 @@
 @import '~bootstrap-vue/src/index.scss';
 
 @font-face {
-    font-family: "Museo 700";
-    src: url("~@/assets/font/Rockwell.woff2") format('woff2');
+    font-family: "Helvetica";
+    src: url("~@/assets/font/Helvetica.ttf") format('ttf');
 }
 
 body {
@@ -18,7 +18,8 @@ body {
 }
 
 .content {
-    margin-top: 3em;
+    margin-top: 2em;
+    margin-bottom: 2em;
     min-height: 100vh;
 }
 
