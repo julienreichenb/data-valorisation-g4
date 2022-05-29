@@ -19,7 +19,7 @@
             <div class="mt-2" v-text="`Chargement des données...`" />
         </div>
         <div v-else>
-            <div class="my-4">
+            <div class="mt-4 mb-5">
                 <TimeLine ref="timeline" :data="datetimes" :current="datetimes[currentIndex]" :currentIndex="currentIndex" @update="updateIndex" @over="playing = false" />
             </div>
             <div v-if="heatmaps && heatmaps.length">
@@ -35,9 +35,6 @@
                     @play="play"
                     @stop="stop"
                 />
-            </div>
-            <div v-if="od && od.length">
-                {{ od.length }}
             </div>
         </div>        
     </div>
@@ -99,5 +96,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>

@@ -107,7 +107,7 @@ export default {
     .slider-tick-label:first-child:nth-last-child(n+8),
     .slider-tick-label:first-child:nth-last-child(n+8) ~ .slider-tick-label {
         &:nth-child(odd) {
-            transform: translateY(10px);
+            transform: translateY(15px);
         }
     }
 }

@@ -7,9 +7,7 @@ export default {
             HEATMAPS_URI: 'heatmaps/standard',
             OD_URI: 'origin-destination/standard',
             tiles: null,
-            bigTiles: null,
             heatmaps: [],
-            od: [],
         }
     },
     methods: {
@@ -21,7 +19,6 @@ export default {
             return new Promise((resolve) => {
                 resolve(this.loadHeatmapData())
             })
-            // this.loadOdData() No authorization yet
         },
         async loadHeatmapData() {
             this.heatmaps = [] // Reset data
@@ -58,22 +55,6 @@ export default {
                     .finally(async () => {
                         await this.arrangeHeatmapsData()
                     })
-        },
-        async loadOdData() {
-            await this.axios.get(`${this.OD_URI}/grids/${this.params.locationType}/${this.params.locationType === 'municipalities' ? this.params.location.ofsNumber : this.params.location.numDistrict}`)
-            .then(async (res) => {
-                this.bigTiles = res.data
-                //const formattedStart = moment(`${this.params.startDate} ${this.params.startTime}`, 'YYYY-MM-DD hh:mm')
-                //const formattedEnd = moment(`${this.params.endDate} ${this.params.endTime}`, 'YYYY-MM-DD hh:mm')
-                //await this.odQueriesWrapper(this.tiles, formattedStart, formattedEnd)
-                console.log(this.bigTiles)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(async () => {
-                //await this.arrangeHeatmapsData()
-            })
         },
         async readGeoJSONFile(file) {
             return new Promise((resolve, reject) => {
