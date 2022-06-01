@@ -24,7 +24,6 @@ export default {
             this.heatmaps = [] // Reset data
             if(this.params.locationType === 'geojson') {
                 const data = await this.readGeoJSONFile(this.params.location)
-                console.log(stringify(data.features[0]))
                 await this.axios.post(`${this.HEATMAPS_URI}/grids/${this.params.locationType}/WGS84`, data.features[0].geometry)
                     .then(async (res) => {
                         this.tiles = res.data.tiles
