@@ -22,7 +22,7 @@ api.interceptors.request.use(async (req) => {
 })
 
 api.interceptors.response.use((res) => { return res }, async (error) => {
-    if(error.response.status == 403 && store.getters['auth/attempts'] < 2) {
+    if(store.getters['auth/attempts'] < 2) {
         store.dispatch('auth/increaseAttempts')
         await getAccessToken()
         // Retry with new token
