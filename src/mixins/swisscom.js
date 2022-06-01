@@ -1,6 +1,5 @@
 import moment from 'moment'
 import axios from 'axios'
-import { stringify } from 'qs'
 export default {
     data() {
         return {
