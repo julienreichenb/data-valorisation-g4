@@ -3,20 +3,20 @@
          <b-alert variant="warning" dismissible show>
             <p class="font-weight-bold" v-html="`Attention ! Sur ce prototype, vous devez utiliser <u>Google Chrome</u> en mode 'no-cors' pour accéder aux données.`" />
             <p v-html="`Pour ce faire, lancez l'<b>invite de commande en mode administrateur</b> : Touche Windows, tapez 'cmd', clique droit puis 'Exécuter en tant qu'Administrateur' et enfin cliquez sur 'Oui'.`" />
-            <p v-text="`Faites ensuite les 2 commandes suivantes, dans l'ordre. Une nouvelle fenêtre Chrome va s'ouvrir.`" />
+            <p v-text="`Faites ensuite les 2 commandes suivantes (<code>a</code> et <code>b</code>), dans l'ordre. Une nouvelle fenêtre Chrome va s'ouvrir.`" />
             <div class="bg-dark p-3 rounded mb-3">
                 <code>
                     <div>
-                        > cd "C:\Program Files\Google\Chrome\Application"
+                        a> cd "C:\Program Files\Google\Chrome\Application"
                     </div>
                     <div class="font-italic text-white">
                         S'il y a une erreur "Chemin d'accès introuvable", essayez :
                     </div>
                     <div>
-                        > cd "C:\Program Files (x86)\Google\Chrome\Application"
+                        a> cd "C:\Program Files (x86)\Google\Chrome\Application"
                     </div>
                     <div>
-                        > chrome.exe --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
+                        b> chrome.exe --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
                     </div>
                 </code>
             </div>
