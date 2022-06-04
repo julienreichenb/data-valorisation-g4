@@ -2,7 +2,7 @@
     <div id="swisscom-data-aggregation-component">
          <b-alert variant="warning" dismissible show>
             <p class="font-weight-bold" v-html="`Attention ! Sur ce prototype, vous devez utiliser <u>Google Chrome</u> en mode 'no-cors' pour accéder aux données.`" />
-            <p v-text="`Pour ce faire, lancez l'<b>invite de commande en mode administrateur</b> : Touche Windows, tapez 'cmd', clique droit puis 'Exécuter en tant qu'Administrateur' et enfin cliquez sur 'Oui'.`" />
+            <p v-html="`Pour ce faire, lancez l'<b>invite de commande en mode administrateur</b> : Touche Windows, tapez 'cmd', clique droit puis 'Exécuter en tant qu'Administrateur' et enfin cliquez sur 'Oui'.`" />
             <p v-text="`Faites ensuite les 2 commandes suivantes, dans l'ordre. Une nouvelle fenêtre Chrome va s'ouvrir.`" />
             <div class="bg-dark p-3 rounded mb-3">
                 <code>
