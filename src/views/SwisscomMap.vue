@@ -1,17 +1,26 @@
 <template>
     <div id="swisscom-data-aggregation-component">
-         <b-alert variant="warning" dismissible :show="isDevMode">
-            <p v-text="`Attention ! En développement, vous devez lancer votre navigateur en mode 'no-cors' pour accéder aux données.`" />
-            <div class="bg-dark p-3 rounded">
-                <code >
+         <b-alert variant="warning" dismissible show>
+            <p class="font-weight-bold" v-html="`Attention ! Sur ce prototype, vous devez utiliser <u>Google Chrome</u> en mode 'no-cors' pour accéder aux données.`" />
+            <p v-html="`Pour ce faire, lancez l'<b>invite de commande en mode administrateur</b> : Touche Windows, tapez 'cmd', clique droit puis 'Exécuter en tant qu'Administrateur' et enfin cliquez sur 'Oui'.`" />
+            <p v-html="`Faites ensuite les 2 commandes suivantes (<code>a</code> et <code>b</code>), dans l'ordre. Une nouvelle fenêtre Chrome va s'ouvrir.`" />
+            <div class="bg-dark p-3 rounded mb-3">
+                <code>
                     <div>
-                        > cd "C:\Program Files\Google\Chrome\Application"
+                        a> cd "C:\Program Files\Google\Chrome\Application"
+                    </div>
+                    <div class="font-italic text-white">
+                        S'il y a une erreur "Chemin d'accès introuvable", essayez :
                     </div>
                     <div>
-                        > chrome.exe --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
+                        a> cd "C:\Program Files (x86)\Google\Chrome\Application"
+                    </div>
+                    <div>
+                        b> chrome.exe --disable-web-security --disable-gpu --user-data-dir=~/chromeTemp
                     </div>
                 </code>
             </div>
+            <p v-text="`Une fois la nouvelle fenêtre Chrome ouverte, vous pouvez fermer l'invite de commande et aller sur le llien du prototype sur la nouvelle fenêtre.`" />
         </b-alert>
         <Inputs :loading="loading" @update="loadDashboard" />
         <div v-if="loading" class="mt-4 text-center">
@@ -19,11 +28,11 @@
             <div class="mt-2" v-text="`Chargement des données...`" />
         </div>
         <div v-else>
-            <div class="mt-4 mb-5">
-                <TimeLine ref="timeline" :data="datetimes" :current="datetimes[currentIndex]" :currentIndex="currentIndex" @update="updateIndex" @over="playing = false" />
-            </div>
             <div v-if="heatmaps && heatmaps.length">
                 <KPIs :data="heatmaps[currentIndex]" />
+            </div>
+            <div class="mb-3" :class="datetimes.length > 7 && 'mt-5'">
+                <TimeLine ref="timeline" :data="datetimes" :current="datetimes[currentIndex]" :currentIndex="currentIndex" @update="updateIndex" @over="playing = false" />
             </div>
             <div v-if="tiles && tiles.length" class="content-bg">
                 <HeatMap
@@ -63,9 +72,6 @@ export default {
         }
     },
     computed: {
-        isDevMode() {
-            return window.location.hostname.includes('localhost')
-        },
         datetimes() {
             return this.heatmaps.map((h) => h.datetime)
         },

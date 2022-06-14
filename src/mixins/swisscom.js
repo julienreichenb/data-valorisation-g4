@@ -24,22 +24,19 @@ export default {
             this.heatmaps = [] // Reset data
             if(this.params.locationType === 'geojson') {
                 const data = await this.readGeoJSONFile(this.params.location)
-                await this.axios.post(`${this.HEATMAPS_URI}/grids/${this.params.locationType}/WGS84`, {
-                    body: {
-                        "description": "hello",
-                        "format": "GeoJSON",
-                        "type": data.features[0]
-                    }
-                })
-                .then((res) => {
-                    console.log(res)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-                .finally(async () => {
-                    await this.arrangeHeatmapsData()
-                })
+                await this.axios.post(`${this.HEATMAPS_URI}/grids/${this.params.locationType}/WGS84`, data.features[0].geometry)
+                    .then(async (res) => {
+                        this.tiles = res.data.tiles
+                        const formattedStart = moment(`${this.params.startDate} ${this.params.startTime}`, 'YYYY-MM-DD hh:mm')
+                        const formattedEnd = moment(`${this.params.endDate} ${this.params.endTime}`, 'YYYY-MM-DD hh:mm')
+                        await this.heatmapQueriesWrapper(this.tiles, formattedStart, formattedEnd)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                    .finally(async () => {
+                        await this.arrangeHeatmapsData()
+                    })
             }
             else
                 await this.axios.get(`${this.HEATMAPS_URI}/grids/${this.params.locationType}/${this.params.locationType === 'municipalities' ? this.params.location.ofsNumber : this.params.location.numDistrict}`)
