@@ -15,7 +15,7 @@ export const mutations = {
         state.pinnedList.push(newPinned)
     },
     remove_pinned(state, id) {
-        state.pinnedList = state.pinnedList.splice(id + 1, 1)
+        state.pinnedList.splice(id, 1)
     },
 }
 

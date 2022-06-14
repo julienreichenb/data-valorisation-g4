@@ -97,7 +97,7 @@
                             v-model="form.startTime"
                             required
                             :options="startHours"
-                            :state="validateState('startTime')"
+                            :disabled="isGtThanADay(form.startDate, form.endDate) === 'daily'"
                         >
                             <template #first>
                                 <b-form-select-option :value="null" disabled selected v-text="'Heure de début'" />
@@ -126,11 +126,11 @@
                                 <font-awesome-icon class="text-primary" icon="clock" />
                             </div>
                         </template>
-                        <b-select class="custom-input" 
+                        <b-select class="custom-input"
                             v-model="form.endTime"
                             required
                             :options="endHours"
-                            :state="validateState('endTime')"
+                            :disabled="isGtThanADay(form.startDate, form.endDate) === 'daily'"
                         >
                             <template #first>
                                 <b-form-select-option :value="null" 
@@ -168,7 +168,7 @@
                 <span v-text="'Veuillez compléter tous les champs.'" />
             </b-alert>
         </b-form>
-        <PinnedToolbar :list="pinnedList" @remove="removePinned" @set="setParams" />
+        <PinnedToolbar ref="pinned" :list="pinnedList" @remove="removePinned" @set="setParams" />
     </div>
 </template>
 
@@ -177,20 +177,19 @@ import { validationMixin } from "vuelidate"
 import { required } from 'vuelidate/lib/validators'
 import moment from 'moment'
 import BaseDataMixin from '@/mixins/baseData'
+import SwisscomMixin from '@/mixins/swisscom'
 import CantonFlag from '@/components/swisscomMap/CantonFlag'
 import PinnedToolbar from '@/components/swisscomMap/PinnedToolbar'
 export default {
     name: 'Inputs',
     mixins: [
+        SwisscomMixin,
         BaseDataMixin,
         validationMixin,
     ],
     components: {
         CantonFlag,
         PinnedToolbar,
-    },
-    props: {
-        loading: { type: Boolean, default: false },
     },
     data() {
         return {
@@ -338,13 +337,7 @@ export default {
                 startDate: {
                     required,
                 },
-                startTime: {
-                    required,
-                },
                 endDate: {
-                    required,
-                },
-                endTime: {
                     required,
                 },
             },

@@ -22,7 +22,7 @@
             </div>
             <p v-text="`Une fois la nouvelle fenêtre Chrome ouverte, vous pouvez fermer l'invite de commande et aller sur le llien du prototype sur la nouvelle fenêtre.`" />
         </b-alert>
-        <Inputs :loading="loading" @update="loadDashboard" />
+        <Inputs @update="loadDashboard" />
         <div v-if="loading" class="mt-4 text-center">
             <font-awesome-icon class="fa-4x" icon="spinner" spin />
             <div class="mt-2" v-text="`Chargement des données...`" />

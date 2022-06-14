@@ -1,6 +1,6 @@
 <template>
     <div>
-        <l-map id="heatmap" ref="map" :zoom="zoom" :center="center" @update:zoom="zoomUpdated">
+        <l-map id="heatmap" ref="map" :maxZoom="15" :zoom="zoom" :center="center" @update:zoom="zoomUpdated">
             <l-control>                
                 <b-link id="recenterButton" class="map-button" @click="recenter()">
                     <font-awesome-layers class="fa-3x">
@@ -105,11 +105,11 @@ export default {
             url: 'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
             attribution:
                 '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            zoom: 11.5,
+            zoom: 12.5,
             currentZoom: null,
             showHeat: true,
         }
-    }, 
+    },
     computed: {
         heatmapFormatted() {
             const max = Math.max.apply(Math, this.densities.map((o) => { return o.score }))
@@ -128,7 +128,7 @@ export default {
         },        
         zoomUpdated(zoom) {
             this.currentZoom = zoom
-        },        
+        },    
     },
 }
 </script>
@@ -136,9 +136,5 @@ export default {
 <style lang="scss">
 #heatmap {
     min-height: 70vh;
-
-    .tile {
-        border-radius: 0 !important;
-    }
 }
 </style>

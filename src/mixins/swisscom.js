@@ -103,7 +103,7 @@ export default {
         async prepareQueries(tiles, start, end) {
             const queries = []
             const currentDate = start.clone() // Init date clone            
-            if(this.getHourlyOrDailyMode(start, end) === 'hourly')
+            if(this.isGtThanADay(start, end) === 'hourly')
                 while (end.isSameOrAfter(currentDate, 'hour')) {
                     const tempDate = currentDate.clone()
                     const tempTiles = [...tiles]
@@ -140,7 +140,12 @@ export default {
                 this.uniqueCountQuery(tiles, date, mode)
             ]
         },
-        getHourlyOrDailyMode(start, end) {
+        isGtThanADay(start, end) {
+            if(!(start instanceof moment))
+                start = moment(start, 'YYYY-MM-DD')
+            if(!(end instanceof moment))
+                end = moment(end, 'YYYY-MM-DD')
+            if(!start || !end) return true
             return Math.abs(start.diff(end, 'hours')) > 24 ? 'daily' : 'hourly'
         },
         demographicsQuery(tiles, date, mode) {

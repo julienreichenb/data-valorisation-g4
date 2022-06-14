@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss">
 #pinned-toolbar {
-    z-index: 1000;
+    z-index: 1001;
     position: fixed;
     right: 0;
     top: 150px;
