@@ -1,7 +1,7 @@
 <template>
     <div id="footer" class="px-5 d-flex align-items-center justify-content-between">
         <a href="https://digital.swisscom.com" target="_blank">
-            <b-img height="50" :src="require('@/assets/logo/LKCXj.webp')" />
+            <b-img height="50" :src="require('@/assets/logo/swisscom_logo.png')" />
         </a>
         <span class="small font-italic" v-text="'Ce prototype a été réalisé dans le cadre du MScBA orientation MSI de la HES-SO Master.'" />
         <a href="https://www.hes-so.ch/master" target="_blank">
